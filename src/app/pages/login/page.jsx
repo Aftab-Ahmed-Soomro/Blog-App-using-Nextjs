@@ -80,6 +80,7 @@ const Login = () => {
                 Don't have an account?{' '}
                 <Link href='/pages/signup'>
                     <span className='text-black font-medium'>Signup here</span>
+                    {/* normal */}
                 </Link>
             </p>
         </div>
