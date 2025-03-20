@@ -254,7 +254,7 @@ const HomePage = () => {
 
         {/* Notification Panel */}
         {showNotifications && (
-          <div className="fixed top-20 right-5 w-80 bg-white shadow-2xl rounded-xl overflow-hidden transition-all duration-300 z-50">
+          <div className="fixed top-20 right-30 w-80 bg-white shadow-2xl rounded-xl overflow-hidden transition-all duration-300 z-50">
             {/* Header */}
             <div className="p-4 bg-gray-900 text-white flex justify-between items-center">
               <h3 className="font-bold text-lg">Notifications</h3>

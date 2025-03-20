@@ -354,7 +354,7 @@ const Dashboard = () => {
       {showNotifications && (
   <div
     style={notificationStyle}
-    className="fixed top-16 right-5 w-80 bg-white shadow-2xl rounded-xl overflow-hidden transition-all duration-300 animate-fadeIn"
+    className="fixed top-16 mt-16 right-5 w-80 bg-white shadow-2xl rounded-xl overflow-hidden transition-all duration-300 animate-fadeIn"
   >
     {/* Header */}
     <div className="p-4 bg-gray-900 text-white flex justify-between items-center">
