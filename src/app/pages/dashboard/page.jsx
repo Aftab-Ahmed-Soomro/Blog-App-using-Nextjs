@@ -51,7 +51,7 @@ const Dashboard = () => {
           .from("BlogApp")
           .select("id, title, content, created_at, category_id, Categories(name)")
           .eq("user_id", session.user.id);
-      
+  
         if (error) {
           console.error("Error fetching blogs:", error);
         } else {
@@ -59,9 +59,19 @@ const Dashboard = () => {
         }
       }
     };
-  
     fetchBlogs();
-  }, [session]);  
+    const blogSubscription = supabase
+      .channel("blogs")
+      .on("postgres_changes", { event: "*", schema: "public", table: "BlogApp" }, (payload) => {
+        console.log("New blog added:", payload);
+        fetchBlogs();
+      })
+      .subscribe();
+  
+    return () => {
+      supabase.removeChannel(blogSubscription);
+    };
+  }, [session]);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -74,12 +84,29 @@ const Dashboard = () => {
     };
   
     fetchCategories();
+  
+    const categorySubscription = supabase
+      .channel("categories")
+      .on("postgres_changes", { event: "*", schema: "public", table: "Categories" }, (payload) => {
+        console.log("New Category added:", payload);
+        fetchCategories();
+      })
+      .subscribe();
+  
+    return () => {
+      supabase.removeChannel(categorySubscription);
+    };
   }, []);
-
+  
   const handleDelete = async (id) => {
-    const { error } = await supabase.from("BlogApp").delete().match({ id, user_id: session.user.id });
-    if (!error) {
-      setBlogs(blogs.filter((blog) => blog.id !== id));
+    setBlogs(blogs.filter((blog) => blog.id !== id)); // Optimistic UI Update
+    
+    const { error } = await supabase.from("BlogApp").delete().match({ id });
+  
+    if (error) {
+      console.error("Error deleting blog:", error);
+      toast.error("Error deleting blog");
+    } else {
       toast.success("Blog Deleted Successfully");
     }
   };
@@ -96,17 +123,10 @@ const Dashboard = () => {
   };
 
   const handleOpen = (blog = null) => {
-    if (blog) {
-      setEditingId(blog.id);
-      setTitle(blog.title);
-      setContent(blog.content);
-      setCategoryId(blog.category_id || null); // Make sure to handle potentially undefined values
-    } else {
-      setEditingId(null);
-      setTitle("");
-      setContent("");
-      setCategoryId(null);
-    }
+    setEditingId(blog?.id || null);
+    setTitle(blog?.title || ""); // Ensuring empty string instead of undefined
+    setContent(blog?.content || ""); // Ensuring empty string instead of undefined
+    setCategoryId(blog?.category_id || null); // Ensuring category_id is null if undefined
     setOpen(true);
   };
 
