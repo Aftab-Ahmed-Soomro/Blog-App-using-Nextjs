@@ -20,14 +20,12 @@ const Login = () => {
         try {
             const result = await signInUser(email, password);
             if (result.success) {
-                // Add autoClose option to make toast stay longer
-                toast.success("Login Successfully", {
-                    autoClose: 5000 // 5 seconds
+                toast.success("Login Successfully!", {
+                    autoClose: 3000
                 });
-                
-                // Delay the redirect slightly to ensure toast is visible
+    
                 setTimeout(() => {
-                    router.push('/pages/dashboard');
+                    // Redirect will be handled in AuthContext
                 }, 2000);
             }
         } catch (err) {

@@ -16,7 +16,7 @@ const Signup = () => {
 
     const handleSignUp = async (e) => {
         e.preventDefault();
-        const result = await signUpNewUser(email, password);
+        const result = await signUpNewUser(email, password, 'user');
         if (result.success) {
             toast.success("Signup Successfully", {
                 autoClose: 5000 // 5 seconds
