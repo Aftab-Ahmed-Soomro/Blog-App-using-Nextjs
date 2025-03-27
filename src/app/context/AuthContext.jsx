@@ -13,62 +13,58 @@ export const AuthProvider = ({ children }) => {
 
   // Redirect User Based on Role
   const handleLoginRedirect = async (userId) => {
-    const role = await fetchUserRole(userId);
-
-    if (role === "admin") {
-      router.push("/pages/adminDashboard");
-    } else {
-      router.push("/pages/dashboard");
+    try {
+      const role = await fetchUserRole(userId);
+      console.log("Redirecting with role:", role); // Debug log
+  
+      if (role === "admin") {
+        router.push("/pages/adminDashboard");
+      } else {
+        router.push("/pages/dashboard");
+      }
+    } catch (error) {
+      console.error("Error in handleLoginRedirect:", error);
+      router.push("/pages/dashboard"); // Fallback
     }
   };
 
   // Sign Up Function
   const signUpNewUser = async (email, password, role = "user") => {
     try {
-      // Create user in Supabase Authentication
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
           data: {
-            role: role // Store role in user metadata
+            role: role // This ensures role is in user_metadata
           }
         }
       });
-
+  
       if (error) {
         console.error("Sign-up error:", error);
         return { success: false, error: error.message };
       }
-
-      // If signup is successful, create a record in the users table
+  
+      // Ensure role is also in users table
       if (data.user) {
         const { error: insertError } = await supabase
           .from("users")
           .insert({
             id: data.user.id,
             email: data.user.email,
-            role: role
+            role: role // Explicitly set role here
           });
-
+  
         if (insertError) {
           console.error("Error inserting user in database:", insertError);
-          return { success: false, error: insertError.message };
         }
       }
-
-      console.log("Sign-up success:", data);
-      setSession(data.session);
-
-      // Redirect based on role
-      const userId = data.user?.id;
-      if (userId) {
-        await handleLoginRedirect(userId);
-      }
-
+  
+      console.log("Sign-up full data:", data); // Debug log
       return { success: true, data };
     } catch (error) {
-      console.error("An unexpected error occurred:", error);
+      console.error("Unexpected signup error:", error);
       return { success: false, error: error.message };
     }
   };
@@ -129,18 +125,20 @@ export const AuthProvider = ({ children }) => {
       console.error("User ID is missing!");
       return "user";
     }
-
+  
     const { data, error } = await supabase
       .from("users")
       .select("role")
       .eq("id", userId)
       .single();
-
+  
+    console.log("Fetched user role data:", { data, error }); // Debug log
+  
     if (error || !data) {
       console.error("Error fetching user role:", error);
       return "user";
     }
-
+  
     return data.role;
   };
 
