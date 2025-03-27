@@ -7,7 +7,7 @@ import { UserAuth } from "@/app/context/AuthContext";
 import { supabase } from "@/app/utils/supabaseClient";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { MdEdit, MdNotifications } from "react-icons/md";
+import { MdEdit } from "react-icons/md";
 import { Box, Modal } from "@mui/material";
 
 const style = {
@@ -26,7 +26,6 @@ const AdminDashboard = () => {
   const { session, signOut, loading } = UserAuth();
   const router = useRouter();
   const [users, setUsers] = useState([]);
-  const [notifications, setNotifications] = useState([]);
   const [open, setOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [isRoleLoading, setIsRoleLoading] = useState(true);
