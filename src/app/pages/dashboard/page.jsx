@@ -326,29 +326,45 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Navbar */}
-      <nav className="bg-black py-4 px-6 flex items-center justify-between">
+      <nav className="bg-gray-900 shadow-md sticky top-0 z-50">
+      <div className="container mx-auto flex items-center justify-between p-4 lg:p-6">
+        {/* Dashboard Title */}
         <Link href="/">
-          <h1 className="text-white font-bold text-2xl cursor-pointer">BLOGS BY AFTAB</h1>
+          <h1 className="text-white font-extrabold text-2xl lg:text-4xl tracking-wide transition-transform transform hover:scale-105">
+            Dashboard
+          </h1>
         </Link>
-        <div className="flex gap-4 items-center">
-          {/* Notification icon with badge */}
+
+        {/* Right Side Buttons & Notifications */}
+        <div className="flex gap-6 items-center">
+          {/* Notification Icon with Badge */}
           <div className="relative cursor-pointer" onClick={toggleNotifications}>
-            <MdNotifications className="text-white text-2xl" />
+            <MdNotifications className="text-white text-3xl transition-transform hover:scale-110" />
             {unreadCount > 0 && (
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+              <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center animate-pulse">
                 {unreadCount}
               </span>
             )}
           </div>
-          
-          <button onClick={handleOpen} className="px-4 py-2 bg-white text-black rounded-md hover:bg-gray-200 transition cursor-pointer">
+
+          {/* Add Blog Button */}
+          <button
+            onClick={handleOpen}
+            className="px-5 py-2 rounded-full text-white border border-gray-300 bg-gray-800 transition-all duration-300 hover:bg-gray-700 hover:shadow-lg"
+          >
             Add Blog
           </button>
-          <button onClick={handleSignOut} className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition cursor-pointer">
+
+          {/* Logout Button */}
+          <button
+            onClick={handleSignOut}
+            className="px-5 py-2 rounded-full text-white border border-red-500 bg-red-500 transition-all duration-300 hover:bg-red-600 hover:shadow-lg"
+          >
             Log Out
           </button>
         </div>
-      </nav>
+      </div>
+    </nav>
 
       {/* Notification Panel */}
       {showNotifications && (

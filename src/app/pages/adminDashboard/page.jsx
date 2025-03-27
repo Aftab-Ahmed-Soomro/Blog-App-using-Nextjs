@@ -186,14 +186,25 @@ const deleteBlog = async (blogId) => {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <nav className="bg-black py-4 px-6 flex items-center justify-between">
+      <nav className="bg-gray-900 shadow-md sticky top-0 z-50">
+      <div className="container mx-auto flex items-center justify-between p-4 lg:p-6">
+        {/* Dashboard Title */}
         <Link href="/">
-          <h1 className="text-white font-bold text-2xl cursor-pointer">ADMIN DASHBOARD</h1>
+          <h1 className="text-white font-extrabold text-2xl lg:text-4xl tracking-wide transition-transform transform hover:scale-105">
+            ADMIN DASHBOARD
+          </h1>
         </Link>
-        <button onClick={handleSignOut} className="px-4 py-2 bg-red-500 text-white rounded-md" disabled={signingOut}>
-          {signingOut ? "Signing Out..." : "Log Out"}
+
+        {/* Logout Button */}
+        <button
+          onClick={handleSignOut}
+          className="px-5 py-2 rounded-full text-white border border-red-500 bg-red-500 transition-all duration-300 hover:bg-red-600 hover:shadow-lg disabled:bg-gray-600 disabled:cursor-not-allowed"
+          disabled={signingOut}
+        >
+          {signingOut ? 'Signing Out...' : 'Log Out'}
         </button>
-      </nav>
+      </div>
+    </nav>
 
       <div className="container mx-auto py-8 px-6">
         <Tabs value={activeTab} onChange={handleTabChange} centered>
