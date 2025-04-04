@@ -6,6 +6,7 @@ import { supabase } from "@/app/utils/supabaseClient";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { MdNotifications } from "react-icons/md";
+import Link from "next/link";
 
 const HomePage = () => {
   const [blogs, setBlogs] = useState([]);
@@ -355,7 +356,9 @@ const HomePage = () => {
               <div key={blog.id} className="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg">
                 <div className="p-6">
                   <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-xl font-bold text-gray-900 truncate">{blog.title}</h3>
+                    <Link href={`pages/blog/${blog.id}`}>
+                      <h3 className="text-xl font-bold text-gray-900 truncate">{blog.title}</h3>
+                    </Link>
                     <span className="px-3 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">
                       {blog.Categories?.name || "Uncategorized"}
                     </span>

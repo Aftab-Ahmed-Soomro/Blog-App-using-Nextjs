@@ -227,6 +227,7 @@ const deleteBlog = async (blogId) => {
                   className="w-full border p-2 rounded-md mt-2"
                 >
                   <option value="user">User</option>
+                  <option value="moderator">Moderator</option>
                   <option value="admin">Admin</option>
                 </select>
               </div>
@@ -285,6 +286,7 @@ const deleteBlog = async (blogId) => {
             className="w-full border p-2 rounded-md"
           >
             <option value="user">User</option>
+            <option value="moderator">Moderator</option>
             <option value="admin">Admin</option>
           </select>
           <button 

@@ -19,6 +19,8 @@ export const AuthProvider = ({ children }) => {
   
       if (role === "admin") {
         router.push("/pages/adminDashboard");
+      } else if (role === "moderator") {
+        router.push("/pages/moderatorDashboard");
       } else {
         router.push("/pages/dashboard");
       }
